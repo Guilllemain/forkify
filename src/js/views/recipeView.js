@@ -4,8 +4,21 @@ export const clearRecipe = () => {
 	elements.recipe.innerHTML = '';
 }
 
+const displayIngredient = ing => 
+		`
+		<li class="recipe__item">
+            <svg class="recipe__icon">
+                <use href="img/icons.svg#icon-check"></use>
+            </svg>
+            <div class="recipe__count">${ing.count}</div>
+            <div class="recipe__ingredient">
+                <span class="recipe__unit">${ing.unit}</span>
+                ${ing.ingredient}
+            </div>
+        </li>
+    `;
+
 export const showRecipe = recipe => {
-	console.log(recipe)
 	const markup = `
 		<figure class="recipe__fig">
 		    <img src="${recipe.img}" alt="${recipe.title}" class="recipe__img">
@@ -18,14 +31,14 @@ export const showRecipe = recipe => {
 		        <svg class="recipe__info-icon">
 		            <use href="img/icons.svg#icon-stopwatch"></use>
 		        </svg>
-		        <span class="recipe__info-data recipe__info-data--minutes">45</span>
+		        <span class="recipe__info-data recipe__info-data--minutes">${recipe.time}</span>
 		        <span class="recipe__info-text"> minutes</span>
 		    </div>
 		    <div class="recipe__info">
 		        <svg class="recipe__info-icon">
 		            <use href="img/icons.svg#icon-man"></use>
 		        </svg>
-		        <span class="recipe__info-data recipe__info-data--people">4</span>
+		        <span class="recipe__info-data recipe__info-data--people">${recipe.servings}</span>
 		        <span class="recipe__info-text"> servings</span>
 
 		        <div class="recipe__info-buttons">
@@ -51,72 +64,7 @@ export const showRecipe = recipe => {
 
 		<div class="recipe__ingredients">
 		    <ul class="recipe__ingredient-list">
-		        <li class="recipe__item">
-		            <svg class="recipe__icon">
-		                <use href="img/icons.svg#icon-check"></use>
-		            </svg>
-		            <div class="recipe__count">1000</div>
-		            <div class="recipe__ingredient">
-		                <span class="recipe__unit">g</span>
-		                pasta
-		            </div>
-		        </li>
-
-		        <li class="recipe__item">
-		            <svg class="recipe__icon">
-		                <use href="img/icons.svg#icon-check"></use>
-		            </svg>
-		            <div class="recipe__count">1/2</div>
-		            <div class="recipe__ingredient">
-		                <span class="recipe__unit">cup</span>
-		                ricotta cheese
-		            </div>
-		        </li>
-
-		        <li class="recipe__item">
-		            <svg class="recipe__icon">
-		                <use href="img/icons.svg#icon-check"></use>
-		            </svg>
-		            <div class="recipe__count">1</div>
-		            <div class="recipe__ingredient">
-		                <span class="recipe__unit"></span>
-		                can of tomatoes, whole or crushed
-		            </div>
-		        </li>
-
-
-		        <li class="recipe__item">
-		            <svg class="recipe__icon">
-		                <use href="img/icons.svg#icon-check"></use>
-		            </svg>
-		            <div class="recipe__count">1</div>
-		            <div class="recipe__ingredient">
-		                <span class="recipe__unit"></span>
-		                can tuna packed in olive oil
-		            </div>
-		        </li>
-
-		        <li class="recipe__item">
-		            <svg class="recipe__icon">
-		                <use href="img/icons.svg#icon-check"></use>
-		            </svg>
-		            <div class="recipe__count">1/2</div>
-		            <div class="recipe__ingredient">
-		                <span class="recipe__unit">cup</span>
-		                grated parmesan cheese
-		            </div>
-		        </li>
-
-		        <li class="recipe__item">
-		            <svg class="recipe__icon">
-		                <use href="img/icons.svg#icon-check"></use>
-		            </svg>
-		            <div class="recipe__count">1/4</div>
-		            <div class="recipe__ingredient">
-		                <span class="recipe__unit">cup</span>
-		                fresh basil, chopped or torn
-		            </div>
-		        </li>
+		    	${recipe.ingredients.map(ingredient => displayIngredient(ingredient)).join(' ')}
 		    </ul>
 
 		    <button class="btn-small recipe__btn">

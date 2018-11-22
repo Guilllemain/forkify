@@ -16,7 +16,6 @@ const controlSearch = async () => {
 		renderLoader(elements.results);
 		try {
 			await state.search.getRecipes();
-			console.log(state.search.results);
 			clearLoader();
 			await searchView.renderResults(state.search.results);
 		} catch (error) {
@@ -34,8 +33,9 @@ elements.resultsPages.addEventListener('click', event => {
 	const btn = event.target.closest('button');
 	if (btn) {
 		const goTo = Number(btn.dataset.goto);
+		console.log(goTo);
 		searchView.clearResults();
-		searchView.renderResults(state.search.results, gotTo)
+		searchView.renderResults(state.search.results, gotTo);
 	}
 });
 
@@ -49,20 +49,12 @@ const controlRecipe = async () => {
 		try {
 			await state.recipe.getRecipe();
 			clearLoader();
+			console.log(state.recipe);
 			recipeView.showRecipe(state.recipe);
 		} catch (error) {
 			console.log(error);
 		}
 	}
 }
-
-const ingredients = [
-            "2 jalapeno peppers, cut in half lengthwise and seeded",
-            "2 (1/14 Teaspoon) slices sour dough bread",
-            "1 tablespoon butter, room temperature",
-            "2 1/2 tablespoons cream cheese, room temperature",
-            "1/2 cup jack and cheddar cheese, shredded",
-            "1 tablespoon tortilla chips, crumbled\n"
-        ];
 
 ['hashchange', 'load'].forEach(event => addEventListener(event, controlRecipe));
