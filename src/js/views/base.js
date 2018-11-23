@@ -3,7 +3,7 @@ export const elements = {
 	listResults: document.querySelector('.results__list'),
 	results: document.querySelector('.results'),
 	resultsPages: document.querySelector('.results__pages'),
-	recipe: document.querySelector('.recipe')
+	recipe: document.querySelector('.recipe'),
 }
 
 export const renderLoader = parent => {

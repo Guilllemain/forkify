@@ -1,7 +1,21 @@
-import {elements} from './base'
+import {elements} from './base';
+import {Fraction} from 'fractional';
 
 export const clearRecipe = () => {
 	elements.recipe.innerHTML = '';
+}
+
+const formatCount = count => {
+	if (count) {
+		const [int, dec] = count.toString().split('.').map(el => Number(el));
+		if (!dec) return count;
+		if (int === 0) {
+			const fr = new Fraction(count);
+			return `${fr.numerator}/${fr.denominator}`;
+		}
+		const fr = new Fraction(count - int);
+		return `${int} ${fr.numerator}/${fr.denominator}`;
+	}
 }
 
 const displayIngredient = ing => 
@@ -10,7 +24,7 @@ const displayIngredient = ing =>
             <svg class="recipe__icon">
                 <use href="img/icons.svg#icon-check"></use>
             </svg>
-            <div class="recipe__count">${ing.count}</div>
+            <div class="recipe__count">${formatCount(ing.count)}</div>
             <div class="recipe__ingredient">
                 <span class="recipe__unit">${ing.unit}</span>
                 ${ing.ingredient}
@@ -42,12 +56,12 @@ export const showRecipe = recipe => {
 		        <span class="recipe__info-text"> servings</span>
 
 		        <div class="recipe__info-buttons">
-		            <button class="btn-tiny">
+		            <button class="btn-tiny btn-decrease">
 		                <svg>
 		                    <use href="img/icons.svg#icon-circle-with-minus"></use>
 		                </svg>
 		            </button>
-		            <button class="btn-tiny">
+		            <button class="btn-tiny btn-increase">
 		                <svg>
 		                    <use href="img/icons.svg#icon-circle-with-plus"></use>
 		                </svg>
@@ -91,4 +105,11 @@ export const showRecipe = recipe => {
 		</div>
 	`;
 	elements.recipe.insertAdjacentHTML('afterbegin', markup);
+}
+
+export const updateIngredients = recipe => {
+	document.querySelector('.recipe__info-data--people').textContent = recipe.servings;
+	document.querySelectorAll('.recipe__count').forEach((node, index) => {
+		node.textContent = formatCount(recipe.ingredients[index].count); 
+	})
 }

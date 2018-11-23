@@ -33,9 +33,8 @@ elements.resultsPages.addEventListener('click', event => {
 	const btn = event.target.closest('button');
 	if (btn) {
 		const goTo = Number(btn.dataset.goto);
-		console.log(goTo);
 		searchView.clearResults();
-		searchView.renderResults(state.search.results, gotTo);
+		searchView.renderResults(state.search.results, goTo);
 	}
 });
 
@@ -45,6 +44,7 @@ const controlRecipe = async () => {
 	if (id) {
 		state.recipe = new Recipe(id);
 		recipeView.clearRecipe();
+		if (state.search) searchView.highlightSelected(id);
 		renderLoader(elements.recipe);
 		try {
 			await state.recipe.getRecipe();
@@ -58,3 +58,18 @@ const controlRecipe = async () => {
 }
 
 ['hashchange', 'load'].forEach(event => addEventListener(event, controlRecipe));
+
+elements.recipe.addEventListener('click', event => {
+	if (event.target.matches('.btn-decrease, .btn-decrease *')) {
+		if (state.recipe.servings > 1) {
+			console.log('test');
+			state.recipe.updateServings('dec');
+			recipeView.updateIngredients(state.recipe);
+		}
+	} else if (event.target.matches('.btn-increase, .btn-increase *')) {
+			console.log('plus');
+
+		state.recipe.updateServings('inc')
+		recipeView.updateIngredients(state.recipe);
+	}
+})

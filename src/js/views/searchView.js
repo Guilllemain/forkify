@@ -14,6 +14,11 @@ const limitTitle = (title, limit = 17) => {
 	return title;
 }
 
+export const highlightSelected = id => {
+	document.querySelectorAll('.results__link').forEach(node => node.classList.remove('results__link--active'));
+	document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active')
+}
+
 const renderRecipe = recipe => {
 	const markup = `<li>
 	                    <a class="results__link" href="#${recipe.recipe_id}">
@@ -41,10 +46,12 @@ const createButton = (page, type) => `
 
 const renderButtons = (page, numResults, resPerPage) => {
 	const pages = Math.ceil(numResults / resPerPage);
+	console.log(pages);
+	console.log('page' + page);
 	let button;
 	if (page === 1 && pages > 1) {
 		button = createButton(page, 'next');
-	} else if (page === pages && pages > 1) {
+	} else if (page < pages && pages > 1) {
 		button = `${createButton(page, 'prev')} ${createButton(page, 'next')}`;
 	} else {
 		button = createButton(page, 'prev');
