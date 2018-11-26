@@ -1,6 +1,6 @@
 import {elements} from './base'
 
-const limitTitle = (title, limit = 17) => {
+export const limitTitle = (title, limit = 17) => {
 	const newTitle = [];
 	if (title.length > limit) {
 		title.split(' ').reduce((accumulator, current) => {
@@ -16,7 +16,7 @@ const limitTitle = (title, limit = 17) => {
 
 export const highlightSelected = id => {
 	document.querySelectorAll('.results__link').forEach(node => node.classList.remove('results__link--active'));
-	document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active')
+	document.querySelector(`.results__link[href="#${id}"]`).classList.add('results__link--active')
 }
 
 const renderRecipe = recipe => {

@@ -11,7 +11,7 @@ import {elements, renderLoader, clearLoader} from './views/base'
 // Global state of the app
 const state = {};
 
-// Search Controller
+// Searches Controller
 const controlSearch = async () => {
 	const query = event.target[0].value;
 	if (query) {
@@ -43,7 +43,7 @@ elements.resultsPages.addEventListener('click', event => {
 	}
 });
 
-// Recipe Controller
+// Recipes Controller
 const controlRecipe = async () => {
 	const id = window.location.hash.replace('#', '');
 	if (id) {
@@ -55,11 +55,30 @@ const controlRecipe = async () => {
 			await state.recipe.getRecipe();
 			clearLoader();
 			console.log(state.recipe);
-			recipeView.showRecipe(state.recipe);
+			recipeView.showRecipe(state.recipe, state.likes.isLiked(id));
 		} catch (error) {
 			console.log(error);
 		}
 	}
+}
+
+	state.likes = new Like();
+    likeView.toggleLikeMenu(state.likes.getNumLikes());
+
+//Likes Controller
+const controlLikes = () => {
+    if (!state.likes) state.likes = new Like();
+    const likeId = state.recipe.id;
+    if (state.likes.isLiked(likeId)) {
+        state.likes.deleteLike(likeId);
+        likeView.removeLike(likeId);
+    } else {
+        state.likes.addLike(state.recipe);
+        console.log(state);
+        likeView.renderLike(state.recipe);
+    }
+    likeView.toggleLikeButton(state.likes.isLiked(likeId));
+    likeView.toggleLikeMenu(state.likes.getNumLikes());
 }
 
 ['hashchange', 'load'].forEach(event => addEventListener(event, controlRecipe));
@@ -80,10 +99,7 @@ elements.recipe.addEventListener('click', event => {
 			listView.renderItem(item);
 		});
 	} else if (event.target.matches('.recipe__love, .recipe__love *')) {
-		state.likes = new Like();
-		state.likes.addLike(state.recipe);
-		console.log(state);
-		likeView.renderLike(state.recipe);
+		controlLikes();
 	}
 })
 
