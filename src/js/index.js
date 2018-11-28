@@ -1,12 +1,12 @@
-import Search from './models/Search'
-import Recipe from './models/Recipe'
-import List from './models/List'
-import Like from './models/Like'
-import * as searchView from './views/searchView'
-import * as recipeView from './views/recipeView'
-import * as listView from './views/listView'
-import * as likeView from './views/likeView'
-import {elements, renderLoader, clearLoader} from './views/base'
+import Search from './models/Search';
+import Recipe from './models/Recipe';
+import List from './models/List';
+import Like from './models/Like';
+import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
+import * as likeView from './views/likeView';
+import {elements, renderLoader, clearLoader} from './views/base';
 
 // Global state of the app
 const state = {};
@@ -54,16 +54,12 @@ const controlRecipe = async () => {
 		try {
 			await state.recipe.getRecipe();
 			clearLoader();
-			console.log(state.recipe);
 			recipeView.showRecipe(state.recipe, state.likes.isLiked(id));
 		} catch (error) {
 			console.log(error);
 		}
 	}
 }
-
-	state.likes = new Like();
-    likeView.toggleLikeMenu(state.likes.getNumLikes());
 
 //Likes Controller
 const controlLikes = () => {
@@ -74,12 +70,18 @@ const controlLikes = () => {
         likeView.removeLike(likeId);
     } else {
         state.likes.addLike(state.recipe);
-        console.log(state);
         likeView.renderLike(state.recipe);
     }
     likeView.toggleLikeButton(state.likes.isLiked(likeId));
     likeView.toggleLikeMenu(state.likes.getNumLikes());
 }
+
+window.addEventListener('load', () => {
+    state.likes = new Like();
+    state.likes.retrieveStorage();
+    likeView.toggleLikeMenu(state.likes.getNumLikes());
+    if (state.likes.likes) state.likes.likes.forEach(like => likeView.renderLike(like));
+});
 
 ['hashchange', 'load'].forEach(event => addEventListener(event, controlRecipe));
 
@@ -109,7 +111,6 @@ elements.list.addEventListener('click', event => {
 		state.list.deleteItem(id);
 		listView.clearItem(id);
 	} else if (event.target.matches('input')) {
-		console.log(state.list.items);
 		const newCount = Number(event.target.value);
 		state.list.updateCount(id, newCount);
 	}

@@ -1,4 +1,4 @@
-import {elements} from './base'
+import {elements} from './base';
 
 const calcStep = count => {
 	if (count) {

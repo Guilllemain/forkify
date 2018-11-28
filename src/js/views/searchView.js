@@ -1,4 +1,4 @@
-import {elements} from './base'
+import {elements} from './base';
 
 export const limitTitle = (title, limit = 17) => {
 	const newTitle = [];
@@ -16,7 +16,8 @@ export const limitTitle = (title, limit = 17) => {
 
 export const highlightSelected = id => {
 	document.querySelectorAll('.results__link').forEach(node => node.classList.remove('results__link--active'));
-	document.querySelector(`.results__link[href="#${id}"]`).classList.add('results__link--active')
+	const activeLink = document.querySelectorAll(`.results__link[href="#${id}"]`);
+	if (activeLink.length > 0) activeLink[0].classList.add('results__link--active');
 }
 
 const renderRecipe = recipe => {
@@ -32,7 +33,6 @@ const renderRecipe = recipe => {
 	                    </a>
 	                </li>`;
     elements.listResults.insertAdjacentHTML('beforeend', markup);
-
 }
 
 const createButton = (page, type) => `
@@ -46,8 +46,6 @@ const createButton = (page, type) => `
 
 const renderButtons = (page, numResults, resPerPage) => {
 	const pages = Math.ceil(numResults / resPerPage);
-	console.log(pages);
-	console.log('page' + page);
 	let button;
 	if (page === 1 && pages > 1) {
 		button = createButton(page, 'next');
