@@ -1,6 +1,6 @@
 export default class Like {
 	constructor() {
-		this.likes = [];
+		this.likes = []
 	}
 
 	addLike (recipe) {
@@ -10,31 +10,31 @@ export default class Like {
 			author: recipe.author,
 			img: recipe.img
 		}
-		this.likes.push(like);
-        this.persistLike();
-		return like;
+		this.likes.push(like)
+        this.persistLike()
+		return like
 	}
 
 	deleteLike(id) {
-		const index = this.likes.findIndex(item => item.id === id);
-		this.likes.splice(index, 1);
-        this.persistLike();
+		const index = this.likes.findIndex(item => item.id === id)
+		this.likes.splice(index, 1)
+        this.persistLike()
 	}
 
 	isLiked(id) {
-		return this.likes.findIndex(item => item.id === id) !== -1;
+		return this.likes.findIndex(item => item.id === id) !== -1
 	}
 
 	getNumLikes() {
-		return this.likes.length;
+		return this.likes.length
 	}
 
     persistLike() {
-        localStorage.setItem('likes', JSON.stringify(this.likes));
+        localStorage.setItem('likes', JSON.stringify(this.likes))
     }
 
     retrieveStorage() {
-        const storage = JSON.parse(localStorage.getItem('likes'));
-        if (storage) this.likes = storage;
+        const storage = JSON.parse(localStorage.getItem('likes'))
+        if (storage) this.likes = storage
     }
 }

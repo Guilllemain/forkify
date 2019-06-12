@@ -1,5 +1,5 @@
-import {elements} from './base';
-import {limitTitle} from './searchView';
+import {elements} from './base'
+import {limitTitle} from './searchView'
 
 export const renderLike = recipe => {
 	const markup = `	<li>
@@ -12,18 +12,18 @@ export const renderLike = recipe => {
                                     <p class="likes__author">${recipe.author}</p>
                                 </div>
                             </a>
-                        </li>`;
-    elements.likes.insertAdjacentHTML('afterend', markup);
+                        </li>`
+    elements.likes.insertAdjacentHTML('afterend', markup)
 }
 
 export const removeLike = id => {
-    const node = document.querySelector(`.likes__link[href="#${id}"]`).parentElement;
-    if (node) node.parentElement.removeChild(node);
+    const node = document.querySelector(`.likes__link[href="#${id}"]`).parentElement
+    if (node) node.parentElement.removeChild(node)
 }
 
 export const toggleLikeButton = isLiked => {
-    const iconPath = isLiked ? 'icon-heart' : 'icon-heart-outlined';
-    document.querySelector('.recipe__love use').setAttribute('href', `img/icons.svg#${iconPath}`);
+    const iconPath = isLiked ? 'icon-heart' : 'icon-heart-outlined'
+    document.querySelector('.recipe__love use').setAttribute('href', `img/icons.svg#${iconPath}`)
 }
 
-export const toggleLikeMenu = numLikes => elements.likesMenu.style.visibility = numLikes ? 'visible' : 'hidden';
+export const toggleLikeMenu = numLikes => elements.likesMenu.style.visibility = numLikes ? 'visible' : 'hidden'

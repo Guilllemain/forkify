@@ -1,26 +1,19 @@
-import {elements} from './base';
-import {Fraction} from 'fractional';
+import {elements} from './base'
+import Fraction from 'fraction.js'
 
 export const clearRecipe = () => {
-	elements.recipe.innerHTML = '';
+	elements.recipe.innerHTML = ''
 }
 
 const formatCount = count => {
-	if (count) {
-		const [int, dec] = count.toString().split('.').map(el => Number(el));
-		if (!dec) return count;
-		if (int === 0) {
-			const fr = new Fraction(count);
-			return `${fr.numerator}/${fr.denominator}`;
-		}
-		const fr = new Fraction(count - int);
-		return `${int} ${fr.numerator}/${fr.denominator}`;
-	}
-	return '';
+	if (!count) return ''
+	
+	const fr = new Fraction(count)
+	return fr.toFraction(true)
 }
 
 const displayIngredient = ing => 
-		`
+	`
 		<li class="recipe__item">
             <svg class="recipe__icon">
                 <use href="img/icons.svg#icon-check"></use>
@@ -31,7 +24,7 @@ const displayIngredient = ing =>
                 ${ing.ingredient}
             </div>
         </li>
-    `;
+    `
 
 export const showRecipe = (recipe, isLiked) => {
 	const markup = `
@@ -104,13 +97,13 @@ export const showRecipe = (recipe, isLiked) => {
 
 		    </a>
 		</div>
-	`;
-	elements.recipe.insertAdjacentHTML('afterbegin', markup);
+	`
+	elements.recipe.insertAdjacentHTML('afterbegin', markup)
 }
 
 export const updateIngredients = recipe => {
-	document.querySelector('.recipe__info-data--people').textContent = recipe.servings;
+	document.querySelector('.recipe__info-data--people').textContent = recipe.servings
 	document.querySelectorAll('.recipe__count').forEach((node, index) => {
-		node.textContent = formatCount(recipe.ingredients[index].count); 
+		node.textContent = formatCount(recipe.ingredients[index].count)
 	})
 }

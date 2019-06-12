@@ -1,23 +1,23 @@
-import {elements} from './base';
+import {elements} from './base'
 
 export const limitTitle = (title, limit = 17) => {
-	const newTitle = [];
 	if (title.length > limit) {
+		const newTitle = []
 		title.split(' ').reduce((accumulator, current) => {
 			if (accumulator + current.length <= limit) {
-				newTitle.push(current);
+				newTitle.push(current)
 			}
-			return accumulator + current.length;
-		}, 0);
-		return `${newTitle.join(' ')} ...`;
+			return accumulator + current.length
+		}, 0)
+		return `${newTitle.join(' ')} ...`
 	}
-	return title;
+	return title
 }
 
 export const highlightSelected = id => {
-	document.querySelectorAll('.results__link').forEach(node => node.classList.remove('results__link--active'));
-	const activeLink = document.querySelectorAll(`.results__link[href="#${id}"]`);
-	if (activeLink.length > 0) activeLink[0].classList.add('results__link--active');
+	document.querySelectorAll('.results__link').forEach(node => node.classList.remove('results__link--active'))
+	const activeLink = document.querySelectorAll(`.results__link[href="#${id}"]`)
+	if (activeLink.length > 0) activeLink[0].classList.add('results__link--active')
 }
 
 const renderRecipe = recipe => {
@@ -31,8 +31,8 @@ const renderRecipe = recipe => {
 	                            <p class="results__author">${recipe.publisher}</p>
 	                        </div>
 	                    </a>
-	                </li>`;
-    elements.listResults.insertAdjacentHTML('beforeend', markup);
+	                </li>`
+    elements.listResults.insertAdjacentHTML('beforeend', markup)
 }
 
 const createButton = (page, type) => `
@@ -42,29 +42,29 @@ const createButton = (page, type) => `
 	        <use href="img/icons.svg#icon-triangle-${type === 'prev' ? 'left' : 'right'}"></use>
 	    </svg>
 	</button>
-`;
+`
 
 const renderButtons = (page, numResults, resPerPage) => {
-	const pages = Math.ceil(numResults / resPerPage);
-	let button;
+	const pages = Math.ceil(numResults / resPerPage)
+	let button
 	if (page === 1 && pages > 1) {
-		button = createButton(page, 'next');
+		button = createButton(page, 'next')
 	} else if (page < pages && pages > 1) {
-		button = `${createButton(page, 'prev')} ${createButton(page, 'next')}`;
+		button = `${createButton(page, 'prev')} ${createButton(page, 'next')}`
 	} else {
-		button = createButton(page, 'prev');
+		button = createButton(page, 'prev')
 	}
-	elements.resultsPages.insertAdjacentHTML('afterbegin', button);
+	elements.resultsPages.insertAdjacentHTML('afterbegin', button)
 }
 
 export const renderResults = (recipes, page = 1, resPerPage = 10) => {
-	const start = (page - 1) * resPerPage;
-	const end = page * resPerPage;
-	recipes.slice(start, end).forEach(renderRecipe);
-	renderButtons(page, recipes.length, resPerPage);
+	const start = (page - 1) * resPerPage
+	const end = page * resPerPage
+	recipes.slice(start, end).forEach(renderRecipe)
+	renderButtons(page, recipes.length, resPerPage)
 }
 
 export const clearResults = () => {
-	elements.listResults.innerHTML = '';
-	elements.resultsPages.innerHTML = '';
+	elements.listResults.innerHTML = ''
+	elements.resultsPages.innerHTML = ''
 }
